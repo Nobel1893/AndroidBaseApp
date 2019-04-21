@@ -1,0 +1,144 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 28
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            debuggable true
+            minifyEnabled false //Disabled Proguard
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
+    flavorDimensions "bluecrunch"
+
+    productFlavors {
+        development {
+            dimension "bluecrunch"
+            applicationId "com.bluecrunch.$appName"+".development"
+            versionCode versionCode
+            versionName "$versionName"
+            buildConfigField 'String', 'BASEURL', '"http://"'
+        }
+        QC {
+            dimension "bluecrunch"
+            applicationId "com.bluecrunch.$appName"+".development"
+            versionCode versionCode
+            versionName "$versionName"
+            buildConfigField 'String', 'BASEURL', '"http://"'
+        } 
+        production {
+            dimension "bluecrunch"
+            applicationId "com.bluecrunch.$appName"
+            versionCode versionCode
+            versionName "$versionName"
+            buildConfigField 'String', 'BASEURL', '"http://"'
+        }
+    }
+}
+
+
+
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //android
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:animated-vector-drawable:28.0.0'
+    implementation 'com.android.support:customtabs:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    //design third party
+    implementation 'com.airbnb.android:lottie:2.7.0'
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.2'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.orhanobut:dialogplus:1.11@aar'
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
+    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
+    implementation 'com.github.warkiz.tickseekbar:tickseekbar:0.1.4'
+    implementation 'com.andkulikov:transitionseverywhere:1.8.0'
+    implementation 'com.github.devlight.shadowlayout:library:1.0.2'
+    implementation 'com.sdsmdg.harjot:longshadows:1.0.1'
+    implementation 'com.loopeer.lib:shadow:0.0.4-beta3'
+
+
+    //google Arch components
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+    implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
+
+    //rx java & rx android
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'com.github.akarnokd:rxjava2-interop:0.9.3'
+    implementation 'com.jakewharton.rxbinding:rxbinding:1.0.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    //dagger
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
+    implementation 'com.google.dagger:dagger:2.21'
+
+
+    //retrofit and gson
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+
+    //google services and firease
+    implementation 'com.google.firebase:firebase-messaging:17.5.0'
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+
+    //general
+    implementation 'pub.devrel:easypermissions:1.3.0'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+
+    //social
+    implementation 'com.facebook.android:facebook-android-sdk:4.41.0'
+
+    //testing
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+
+
+
+
