@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -29,12 +30,6 @@ public abstract class BaseBottomSheetFragment<T extends ViewDataBinding, V exten
     private V mViewModel;
     private ProgressDialog progressDialog;
 
-    /**
-     * Override for set binding variable
-     *
-     * @return variable id
-     */
-    public abstract int getBindingVariable();
 
     /**
      * @return layout resource id
@@ -87,7 +82,7 @@ public abstract class BaseBottomSheetFragment<T extends ViewDataBinding, V exten
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
+        mViewDataBinding.setVariable(BaseActivity.VIEW_MODEL_ID, mViewModel);
         mViewDataBinding.executePendingBindings();
     }
 
@@ -119,87 +114,67 @@ public abstract class BaseBottomSheetFragment<T extends ViewDataBinding, V exten
         progressDialog.dismiss();
     }
 
-    protected void showPopUp(int stringId, String positiveActionName, String negativeActionName,
-                             boolean isCancelable, final Command positiveCommand,
-                             final Command negativeCommand) {
 
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(getActivity());
-        builder.setCancelable(isCancelable)
-                .setMessage(getString(stringId))
-                .setPositiveButton(positiveActionName, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        positiveCommand.execute();
-                    }
-                })
-                .setNegativeButton(negativeActionName, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        negativeCommand.execute();
-                    }
-                }).show();
+
+
+    public AlertDialog showPopUp(@StringRes int messageId,
+                                 final @StringRes int posActionName,
+                                 final DialogInterface.OnClickListener positiveAction,
+                                 final @StringRes int negAction,
+                                 boolean isCancelable){
+        return mActivity.showPopUp(messageId,posActionName,positiveAction,negAction,isCancelable);
+    }
+    public AlertDialog showPopUp(@StringRes int messageId,
+                                 final @StringRes int posAction,
+                                 final DialogInterface.OnClickListener positiveAction,
+                                 final @StringRes int negActioname,
+                                 final DialogInterface.OnClickListener negAction,
+                                 boolean isCancelable){
+        return showPopUp(messageId,posAction,positiveAction,negActioname,negAction,isCancelable);
+    }
+    public AlertDialog showPopUp(@StringRes int messageId,
+                                 final String posActionName,
+                                 final DialogInterface.OnClickListener positiveAction,
+                                 final String negActionName,
+                                 final DialogInterface.OnClickListener negAction,
+                                 boolean isCancelable){
+        return mActivity.showPopUp(messageId,posActionName,positiveAction,negActionName,negAction,isCancelable);
+    }
+    public AlertDialog showPopUp(@StringRes int messageId,
+                                 final @StringRes int posAction,
+                                 final DialogInterface.OnClickListener positiveAction,
+                                 boolean isCancelable){
+        return mActivity.showPopUp(messageId,posAction,positiveAction,isCancelable);
+    }
+    public AlertDialog showPopUp(@StringRes int messageId,
+                                 final @StringRes int posAction,
+                                 boolean isCancelable){
+        return mActivity.showPopUp(messageId,posAction,isCancelable);
     }
 
-    protected void showPopUp(String message, String positiveActionName, String negativeActionName,
-                             boolean isCancelable, final Command positiveCommand,
-                             final Command negativeCommand) {
-
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(getActivity());
-        builder.setCancelable(isCancelable)
-                .setMessage(message)
-                .setPositiveButton(positiveActionName, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        positiveCommand.execute();
-                    }
-                })
-                .setNegativeButton(negativeActionName, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        negativeCommand.execute();
-                    }
-                }).show();
-
+    public AlertDialog showPopUp(String title,String message,
+                                 final  int posAction,
+                                 final DialogInterface.OnClickListener positiveAction,
+                                 final String negAction,
+                                 boolean isCancelable){
+        return mActivity.showPopUp(title,message,posAction,positiveAction,negAction,isCancelable) ;
     }
-
-    protected void showPopUp(int stringId, String positiveActionName,
-                             boolean isCancelable, final Command positiveCommand) {
-
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(getActivity());
-        builder.setCancelable(isCancelable)
-                .setMessage(getString(stringId))
-                .setPositiveButton(positiveActionName, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        positiveCommand.execute();
-                    }
-                }).show();
+    public AlertDialog showPopUp( String title,
+                                  String message,
+                                  final  String posAction,
+                                  boolean isCancelable){
+        return mActivity.showPopUp(title,message,posAction,isCancelable);
     }
-
-    protected void showPopUp(String string, String positiveActionName,
-                             boolean isCancelable, final Command positiveCommand) {
-
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(getActivity());
-        builder.setCancelable(isCancelable)
-                .setMessage(string)
-                .setPositiveButton(positiveActionName, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        positiveCommand.execute();
-                    }
-                }).show();
+    public AlertDialog showPopUp(String message,
+                                 final @StringRes int posAction,
+                                 final DialogInterface.OnClickListener positiveAction,
+                                 boolean isCancelable){
+        return mActivity.showPopUp(message,posAction,positiveAction,isCancelable);
     }
-
-    protected void showPopUp(String string, String positiveActionName,
-                             boolean isCancelable) {
-
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(getActivity());
-        builder.setCancelable(isCancelable)
-                .setMessage(string)
-                .setPositiveButton(positiveActionName, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+    public AlertDialog showPopUp( String message,
+                                  final @StringRes int posAction,
+                                  boolean isCancelable){
+        return mActivity.showPopUp(message,posAction,isCancelable);
     }
 
 //    public void showCustomPopup(String title, List<?> items, int selectedPosition,

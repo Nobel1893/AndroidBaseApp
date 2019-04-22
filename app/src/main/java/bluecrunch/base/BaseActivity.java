@@ -27,6 +27,7 @@ import bluecrunch.utils.Utils;
 public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseViewModel>
         extends AppCompatActivity implements BaseFragment.Callback {
 
+    public static final int VIEW_MODEL_ID=1;
     private T mViewDataBinding;
     private V mViewModel;
     private ProgressDialog progressDialog;
@@ -46,7 +47,6 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         });
     }
 
-    public abstract int getBindingVariable();
 
     public abstract
     @LayoutRes
@@ -91,7 +91,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     private void performDataBinding() {
         mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
         this.mViewModel = mViewModel == null ? getViewModel() : mViewModel;
-        mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
+        mViewDataBinding.setVariable(VIEW_MODEL_ID, mViewModel);
         mViewDataBinding.executePendingBindings();
     }
 
